@@ -1,0 +1,18 @@
+# History & Workspace data
+.Rhistory
+.Rdata
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Packages and libraries
+.Renviron
+revdep/
+.Rcheck/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Note: The 'docs/' directory is NOT ignored because it contains
+# the pre-built static Shinylive site intended for GitHub Pages.

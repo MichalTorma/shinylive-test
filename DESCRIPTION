@@ -1,0 +1,15 @@
+Package: shinyliveMapApp
+Title: Fullscreen Map Shiny App powered by Shinylive and webR
+Version: 0.1.0
+Authors@R: person("Amarok", role = c("aut", "cre"))
+Description: A client-side R Shiny map application exported to static HTML/Wasm via Shinylive for GitHub Pages hosting.
+License: MIT
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    shiny (>= 1.9.0),
+    leaflet (>= 2.2.0)
+Suggests:
+    shinylive (>= 0.5.0),
+    httpuv (>= 1.6.15)
