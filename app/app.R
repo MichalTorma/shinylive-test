@@ -2,7 +2,7 @@ library(shiny)
 library(leaflet)
 
 ui <- fillPage(
-  title = "Fullscreen Map (Shinylive)",
+  title = "Norgeskart (Shinylive)",
   tags$head(
     tags$meta(name = "viewport", content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"),
     tags$style(HTML("
@@ -61,7 +61,7 @@ ui <- fillPage(
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         border: 1px solid #e2e8f0;
       }
-      /* Adjust Leaflet zoom controls placement if needed */
+      /* Adjust Leaflet zoom controls placement */
       .leaflet-top.leaflet-left {
         top: 12px;
         left: 12px;
@@ -71,8 +71,8 @@ ui <- fillPage(
   leafletOutput("map", width = "100%", height = "100%"),
   div(
     class = "map-overlay-card",
-    h3("Interactive Map"),
-    p("Client-side R Shiny app running directly in your browser using Shinylive & webR."),
+    h3("Norgeskart Topo"),
+    p("Kartverket topographic map running client-side with Shinylive & webR."),
     uiOutput("click_info")
   )
 )
@@ -80,13 +80,29 @@ ui <- fillPage(
 server <- function(input, output, session) {
   output$map <- renderLeaflet({
     leaflet(options = leafletOptions(zoomControl = TRUE, minZoom = 2)) |>
-      addProviderTiles(providers$CartoDB.Positron, group = "CartoDB Positron") |>
+      addTiles(
+        urlTemplate = "https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png",
+        attribution = '&copy; <a href="https://www.kartverket.no/" target="_blank">Kartverket</a>',
+        group = "Norgeskart Topo",
+        options = tileOptions(maxZoom = 18, minZoom = 2)
+      ) |>
+      addTiles(
+        urlTemplate = "https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png",
+        attribution = '&copy; <a href="https://www.kartverket.no/" target="_blank">Kartverket</a>',
+        group = "Norgeskart Toporaster",
+        options = tileOptions(maxZoom = 18, minZoom = 2)
+      ) |>
+      addTiles(
+        urlTemplate = "https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png",
+        attribution = '&copy; <a href="https://www.kartverket.no/" target="_blank">Kartverket</a>',
+        group = "Norgeskart Gr\u00e5tone",
+        options = tileOptions(maxZoom = 18, minZoom = 2)
+      ) |>
       addProviderTiles(providers$OpenStreetMap, group = "OpenStreetMap") |>
-      addProviderTiles(providers$Esri.WorldImagery, group = "Satellite (Esri)") |>
-      setView(lng = 0, lat = 20, zoom = 3) |>
+      setView(lng = 10.7522, lat = 59.9139, zoom = 8) |>
       addScaleBar(position = "bottomleft") |>
       addLayersControl(
-        baseGroups = c("CartoDB Positron", "OpenStreetMap", "Satellite (Esri)"),
+        baseGroups = c("Norgeskart Topo", "Norgeskart Toporaster", "Norgeskart Gr\u00e5tone", "OpenStreetMap"),
         position = "topleft",
         options = layersControlOptions(collapsed = TRUE)
       )
